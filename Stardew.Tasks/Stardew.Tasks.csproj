@@ -4,10 +4,23 @@
     <AssemblyName>Linkoid.Stardew.Tasks</AssemblyName>
     <VersionPrefix>0.1.0</VersionPrefix>
     <VersionSuffix>alpha</VersionSuffix>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Authors>linkoid</Authors>
+    <RepositoryUrl>https://github.com/linkoid/Stardew.Tasks</RepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+  </PropertyGroup>
+  
+  <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <Nullable>enable</Nullable>
     <LangVersion>11</LangVersion>
     <NoWarn>$(NoWarn);MSB3277</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <DebugSymbols>false</DebugSymbols>
+    <DebugType>None</DebugType>
   </PropertyGroup>
 
   <ItemGroup>
@@ -55,7 +68,6 @@
 
   <PropertyGroup>
     <DefineConstants Condition="'$(DesignTimeBuild)' == true">$(DefineConstants);DESIGNTIMEBUILD</DefineConstants>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   
