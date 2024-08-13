@@ -1,0 +1,56 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>Linkoid.Stardew.Tasks</AssemblyName>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <Nullable>enable</Nullable>
+    <LangVersion>11</LangVersion>
+    <NoWarn>$(NoWarn);MSB3277</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Stardew.Tasks.Tests" />
+  </ItemGroup>
+
+  <Import Project="GameReferences.props" Sdk="Linkoid.Stardew.ModBuildConfig" Version="5.0.0-rc.0" />
+
+  <ItemGroup>
+    <T4ReferencePath Include="$(GamePath)" />
+  </ItemGroup>
+
+  <!-- Template Generation -->
+  <ItemGroup>
+    <PackageReference Include="Mono.TextTemplating" Version="2.3.1" IncludeAssets="build" PrivateAssets="all" />
+    <PackageReference Include="T4.BuildTools" Version="3.0.0-preview-0052-g5d0f76c785" IncludeAssets="build" PrivateAssets="all" />
+    <PackageReference Include="Linkoid.Build.NuGetPushLocal" Version="1.0.0" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Mono.Cecil" Version="0.11.5">
+      <IncludeAssets>None</IncludeAssets>
+      <IncludeAssets Condition="'$(DesignTimeBuild)' == true">Compile</IncludeAssets>
+      <PrivateAssets>All</PrivateAssets>
+      <GeneratePathProperty>true</GeneratePathProperty>
+    </PackageReference>
+    <T4AssemblyReference Include="$(PkgMono_Cecil)\lib\netstandard2.0\Mono.Cecil.dll" />
+    <T4AssemblyReference Include="$(PkgMono_Cecil)\lib\netstandard2.0\Mono.Cecil.Rocks.dll" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TransformOnBuild>true</TransformOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <T4Transform Include="SMAPIEventExtensions.tt" />
+    <Compile Update="*.g.cs">
+      <DependentUpon>$([System.String]::Copy(%(Filename)).TrimEnd('.g')).tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <PropertyGroup>
+    <DefineConstants Condition="'$(DesignTimeBuild)' == true">$(DefineConstants);DESIGNTIMEBUILD</DefineConstants>
+  </PropertyGroup>
+
+  
+  
+</Project>

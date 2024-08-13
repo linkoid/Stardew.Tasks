@@ -1,0 +1,50 @@
+﻿<#@ template language="C#" #>
+<#@ output extension=".g.cs" #>
+
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="Mono.Cecil" #>
+<#@ import namespace="Mono.Cecil.Rocks" #>
+<#@ import namespace="System.Reflection" #>
+
+using StardewModdingAPI.Events;
+using System;
+using System.Threading.Tasks;
+
+namespace Linkoid.Stardew.Tasks;
+
+public static class SMAPIEventExtensions
+{
+<#
+int _;
+var smapi = ModuleDefinition.ReadModule(Assembly.Load("StardewModdingAPI").Location);
+var eventInterfaces = from type in smapi.GetAllTypes()
+					  where type.Namespace == "StardewModdingAPI.Events"
+						 //&& type.IsInterface
+						 && type.Name.EndsWith("Events")
+					  select type;
+
+
+foreach (var eventInterface in eventInterfaces)
+{
+	var tEventInterface = eventInterface.Name;
+	foreach (var eventInfo in eventInterface.Resolve().Events)
+	{
+		var tEvent = eventInfo.Name;
+		//WriteLine(tEvent);
+		var genericParameterName = eventInfo.EventType.FullName.Replace(eventInfo.EventType.Namespace + "." + eventInfo.EventType.Name + "<", "");
+		genericParameterName = genericParameterName.TrimEnd('>');
+		var tEventArgs = genericParameterName.Split('.').Last();
+#>
+	public static ValueTask<<#=tEventArgs#>> WaitFor<#=tEvent#>(this <#=tEventInterface#> events, TimeSpan? timeout = null)
+	{
+		return StardewTask.WaitForEventArgs<<#=tEventArgs#>>(
+			new(x => events.<#=tEvent#> += x,
+				y => events.<#=tEvent#> -= y),
+			timeout
+		);
+	}
+<#
+	}
+}
+#>
+}

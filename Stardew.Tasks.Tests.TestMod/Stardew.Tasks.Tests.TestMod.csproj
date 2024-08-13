@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Sdk Name="Linkoid.Stardew.ModBuildConfig" Version="1.0.0-rc.0" />
+  
+  <PropertyGroup>
+    <AssemblyName>Linkoid.Stardew.Tasks.Tests.TestMod</AssemblyName>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <BundleExtraAssemblies>System;ThirdParty</BundleExtraAssemblies>
+    <Authors>linkoid</Authors>
+    <Description>Tests the StardewTasks library</Description>
+    <UniqueId>Linkoid.$(MSBuildProjectName)</UniqueId>
+    <MinimumApiVersion>4.0.6</MinimumApiVersion>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Leclair.Stardew.ModManifestBuilder" Version="2.3.1" Private="true" />
+    <PackageReference Include="Linkoid.SmiteLib.Injection" Version="0.1.1-alpha" Private="true" />
+
+    <PackageReference Include="NUnit" Version="3.13.2" IncludeAssets="Runtime" Private="true" PrivateAssets="All" />
+    <PackageReference Include="Linkoid.SmiteLib.Framework" Version="0.1.1-alpha" IncludeAssets="Runtime" Private="true" PrivateAssets="All" />
+    <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" IncludeAssets="Runtime" Private="true" PrivateAssets="All" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\Stardew.Tasks\Stardew.Tasks.csproj" />
+    <ProjectReference Include="..\Stardew.Tasks.Tests\Stardew.Tasks.Tests.csproj" />
+  </ItemGroup>
+  
+</Project>
