@@ -17,6 +17,10 @@
   <Import Project="GameReferences.props" Sdk="Linkoid.Stardew.ModBuildConfig" Version="5.0.0-rc.0" />
 
   <ItemGroup>
+    <None Include="..\README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
     <T4ReferencePath Include="$(GamePath)" />
   </ItemGroup>
 
@@ -51,6 +55,7 @@
 
   <PropertyGroup>
     <DefineConstants Condition="'$(DesignTimeBuild)' == true">$(DefineConstants);DESIGNTIMEBUILD</DefineConstants>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   
