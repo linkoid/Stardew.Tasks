@@ -13,8 +13,10 @@ public sealed class StardewTasksTestMod : Mod
 
 	private SmiteInjection smiteInjection = null!;
 	
-	public override void Entry(IModHelper helper)
+	public override async void Entry(IModHelper helper)
 	{
+		// Immediate Setup
+
 		Instance = this;
 		ModTests.Mod = this;
 

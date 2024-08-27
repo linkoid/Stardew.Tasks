@@ -6,6 +6,7 @@ namespace Linkoid.Stardew.Tasks.Tests;
 
 public class EventTaskTests : IGameLoopEvents
 {
+#nullable disable
 	public event EventHandler<GameLaunchedEventArgs> GameLaunched;
 	public event EventHandler<UpdateTickingEventArgs> UpdateTicking;
 	public event EventHandler<UpdateTickedEventArgs> UpdateTicked;
@@ -20,6 +21,7 @@ public class EventTaskTests : IGameLoopEvents
 	public event EventHandler<DayEndingEventArgs> DayEnding;
 	public event EventHandler<TimeChangedEventArgs> TimeChanged;
 	public event EventHandler<ReturnedToTitleEventArgs> ReturnedToTitle;
+#nullable restore
 
 	[SetUp]
 	public void SetUp()

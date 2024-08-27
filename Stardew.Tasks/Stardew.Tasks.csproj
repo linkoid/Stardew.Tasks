@@ -2,19 +2,23 @@
 
   <PropertyGroup>
     <AssemblyName>Linkoid.Stardew.Tasks</AssemblyName>
-    <VersionPrefix>0.1.0</VersionPrefix>
+    <RootNamespace>Linkoid.Stardew.Tasks</RootNamespace>
+    <PackageId>$(AssemblyName)</PackageId>
+    <VersionPrefix>0.2.0</VersionPrefix>
     <VersionSuffix>alpha</VersionSuffix>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Authors>linkoid</Authors>
     <RepositoryUrl>https://github.com/linkoid/Stardew.Tasks</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <DevelopmentDependency>true</DevelopmentDependency>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
   </PropertyGroup>
   
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <Nullable>enable</Nullable>
-    <LangVersion>11</LangVersion>
+    <LangVersion>8</LangVersion>
     <NoWarn>$(NoWarn);MSB3277</NoWarn>
   </PropertyGroup>
 
@@ -24,20 +28,28 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <InternalsVisibleTo Include="Stardew.Tasks.Tests" />
+    <InternalsVisibleTo Include="Linkoid.Stardew.Tasks.Tests" />
   </ItemGroup>
 
   <Import Project="GameReferences.props" Sdk="Linkoid.Stardew.ModBuildConfig" Version="5.0.0-rc.0" />
 
   <ItemGroup>
+    <Compile Update="@(Compile)" Pack="true" />
     <None Include="..\README.md" Pack="true" PackagePath="\" />
+    <None Include="Build\**\*.props;Build\**\*.targets" Pack="true" PackagePath="build\%(RecursivePath)" />
+    <None Update="Build\$(MSBuildProjectName).props;Build\$(MSBuildProjectName).targets" PackagePath="build\%(RecursivePath)$(PackageId)%(Extension)" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Compile Update="Snippets\**" Pack="false" />
+  </ItemGroup>
+  
+  <!-- Template Generation -->
   <ItemGroup>
     <T4ReferencePath Include="$(GamePath)" />
   </ItemGroup>
 
-  <!-- Template Generation -->
   <ItemGroup>
     <PackageReference Include="Mono.TextTemplating" Version="2.3.1" IncludeAssets="build" PrivateAssets="all" />
     <PackageReference Include="T4.BuildTools" Version="3.0.0-preview-0052-g5d0f76c785" IncludeAssets="build" PrivateAssets="all" />

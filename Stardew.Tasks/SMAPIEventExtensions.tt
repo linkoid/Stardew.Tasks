@@ -1,19 +1,23 @@
 ﻿<#@ template language="C#" #>
 <#@ output extension=".g.cs" #>
-
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="Mono.Cecil" #>
 <#@ import namespace="Mono.Cecil.Rocks" #>
 <#@ import namespace="System.Reflection" #>
+// Copyright (c) 2024 linkoid 
+// Linkoid licenses this file to you under the MIT license.
+// See the LICENSE file in the project below for more information.
+// https://github.com/linkoid/Stardew.Tasks?tab=MIT-1-ov-file
 
-using StardewModdingAPI.Events;
 using System;
 using System.Threading.Tasks;
+using StardewModdingAPI.Events;
+using Linkoid.Stardew.Tasks.Internal;
 
-namespace Linkoid.Stardew.Tasks;
-
-public static class SMAPIEventExtensions
+namespace Linkoid.Stardew.Tasks
 {
+	internal static class SMAPIEventExtensions
+	{
 <#
 int _;
 var smapi = ModuleDefinition.ReadModule(Assembly.Load("StardewModdingAPI").Location);
@@ -30,21 +34,26 @@ foreach (var eventInterface in eventInterfaces)
 	foreach (var eventInfo in eventInterface.Resolve().Events)
 	{
 		var tEvent = eventInfo.Name;
+		if (tEvent.StartsWith("Unvalidated")) continue; // These events trigger warnings.
 		//WriteLine(tEvent);
 		var genericParameterName = eventInfo.EventType.FullName.Replace(eventInfo.EventType.Namespace + "." + eventInfo.EventType.Name + "<", "");
 		genericParameterName = genericParameterName.TrimEnd('>');
 		var tEventArgs = genericParameterName.Split('.').Last();
 #>
-	public static ValueTask<<#=tEventArgs#>> WaitFor<#=tEvent#>(this <#=tEventInterface#> events, TimeSpan? timeout = null)
-	{
-		return StardewTask.WaitForEventArgs<<#=tEventArgs#>>(
-			new(x => events.<#=tEvent#> += x,
-				y => events.<#=tEvent#> -= y),
-			timeout
-		);
-	}
+		/// <inheritdoc cref="<#=tEventInterface#>.<#=tEvent#>"/>
+		public static ValueTask<<#=tEventArgs#>> WaitFor<#=tEvent#>(this <#=tEventInterface#> events, TimeSpan? timeout = null)
+		{
+			return EventTaskFactory.WaitForEventArgs<<#=tEventArgs#>>(
+				new EventWrapper<EventHandler<<#=tEventArgs#>>>(
+					x => events.<#=tEvent#> += x,
+					y => events.<#=tEvent#> -= y
+				),
+				timeout
+			);
+		}
 <#
 	}
 }
 #>
+	}
 }

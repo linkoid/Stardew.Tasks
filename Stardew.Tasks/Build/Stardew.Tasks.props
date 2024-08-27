@@ -1,0 +1,17 @@
+﻿<!-- 
+Copyright (c) 2024 linkoid
+Linkoid licenses this file to you under the MIT license.
+See the LICENSE file in the project below for more information.
+https://github.com/linkoid/Stardew.Tasks?tab=MIT-1-ov-file 
+-->
+
+<Project>
+  <ItemGroup>
+    <Compile Update="$(MSBuildThisFileDirectory)..\**">
+      <Link>Stardew.Tasks\%(Link)</Link>
+    </Compile>
+    <Compile Update="$(MSBuildThisFileDirectory)..\**\Internal\**">
+      <Visible>false</Visible>
+    </Compile>
+  </ItemGroup>
+</Project>
