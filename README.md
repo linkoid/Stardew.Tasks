@@ -13,6 +13,8 @@ The NuGet package is provided as source code, meaning that Stardew.Tasks is only
 ## Example
 This example shows how some of the extension methods could be used in an async Entry method.
 ```cs
+using Linkoid.Stardew.Tasks;
+
 public override async void Entry(IModHelper helper)
 {
     // Log that the mod has been loaded
@@ -22,7 +24,7 @@ public override async void Entry(IModHelper helper)
     await helper.Events.GameLoop.WaitForGameLaunched(); // Stardew Tasks Extension
 
     // Get another mod's API
-    dynamic contentPatcherApi = helper.ModRegistry.GetApi("Pathoschild.ContentPatcher");
+    var contentPatcherApi = helper.ModRegistry.GetApi<IContentPatcherAPI>("Pathoschild.ContentPatcher");
 
     // Wait for a button press
     var buttonEvent = await helper.Events.Input.WaitForButtonPressed(); // Stardew Tasks Extension
@@ -32,7 +34,6 @@ public override async void Entry(IModHelper helper)
     this.Monitor.Log($"The first button pressed was '{firstButtonName}'");
 
     // Create a token that evaluates to the first button pressed
-    contentPatcherApi.RegisterToken(this.ModManifest, "FirstButtonPressed", 
-        (Func<IEnumerable<string>>)(() => new string[] { firstButtonName }));
+    contentPatcherApi.RegisterToken(this.ModManifest, "FirstButtonPressed", () => new string[] { firstButtonName });
 }
 ```
