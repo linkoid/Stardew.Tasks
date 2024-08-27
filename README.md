@@ -1,4 +1,12 @@
 # Stardew.Tasks
+
+[![Stardew Valley](https://custom-icon-badges.demolab.com/badge/Stardew_Valley-FFD58E.svg?logo=stardewvalley)](https://stardewvalleywiki.com/Stardew_Valley)
+[![GitHub](https://img.shields.io/badge/GitHub-%23121011.svg?logo=github&logoColor=white)](https://github.com/linkoid/Stardew.Tasks)
+[![NuGet](https://img.shields.io/nuget/v/Linkoid.Stardew.Tasks)](https://www.nuget.org/packages/Linkoid.Stardew.Tasks)
+[![License](https://img.shields.io/github/license/linkoid/Stardew.Tasks)](https://github.com/linkoid/Stardew.Tasks?tab=MIT-1-ov-file)
+![C#](https://custom-icon-badges.demolab.com/badge/C%23-%23239120.svg?logo=cshrp&logoColor=white)
+
+
 Provides extensions that allow using async methods in Stardew Valley with SMAPI's Event Interfaces.
 The NuGet package is provided as source code, meaning that Stardew.Tasks is only required at compile time. This means end-users will not need to download Stardew.Tasks.
 

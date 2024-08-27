@@ -14,7 +14,7 @@
     <DevelopmentDependency>true</DevelopmentDependency>
     <IncludeBuildOutput>false</IncludeBuildOutput>
   </PropertyGroup>
-  
+
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <Nullable>enable</Nullable>
@@ -44,7 +44,7 @@
   <ItemGroup>
     <Compile Update="Snippets\**" Pack="false" />
   </ItemGroup>
-  
+
   <!-- Template Generation -->
   <ItemGroup>
     <T4ReferencePath Include="$(GamePath)" />
@@ -82,6 +82,9 @@
     <DefineConstants Condition="'$(DesignTimeBuild)' == true">$(DefineConstants);DESIGNTIMEBUILD</DefineConstants>
   </PropertyGroup>
 
-  
-  
+  <Target Name="NugetPush" DependsOnTargets="Build;Pack">
+    <Error Text="Configuration has not been set to 'Release'" Condition="'$(Configuration)' != 'Release'"/>
+    <Exec Command="dotnet nuget push @(NuGetPackOutput->WithMetadataValue('Extension', '.nupkg')) -s nuget.org" />
+  </Target>
+
 </Project>
